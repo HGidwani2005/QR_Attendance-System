@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>DCC Registration</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>Dean Career Cloud (DCC)</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Student Registration</h2>
+
+<form id="registerForm">
+
+<input type="text" id="name" placeholder="Name" required>
+<br>
+
+<input type="text" id="enrollment" placeholder="Enrollment Number" required>
+<br>
+
+<select id="year">
+<option>1st Year</option>
+<option>2nd Year</option>
+<option>3rd Year</option>
+</select>
+
+<br>
+
+<button type="submit">Register</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const form = document.getElementById("registerForm");
+
+form.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+let name = document.getElementById("name").value;
+let enrollment = document.getElementById("enrollment").value;
+let year = document.getElementById("year").value;
+
+try{
+
+await addDoc(collection(db,"students"),{
+
+name:name,
+enrollment:enrollment,
+year:year
+
+});
+
+localStorage.setItem("student",name);
+
+alert("Registration Successful");
+
+form.reset();
+
+}
+
+catch(error){
+
+console.error(error);
+alert("Error saving data");
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
