@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>DCC Attendance</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>Dean Career Cloud (DCC)</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Mark Attendance</h2>
+
+<button onclick="markAttendance()">
+Mark Attendance
+</button>
+
+<p id="status"></p>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+window.markAttendance=async function(){
+
+let params=new URLSearchParams(window.location.search);
+
+let meeting=params.get("meeting");
+
+let student=localStorage.getItem("student");
+
+await addDoc(collection(db,"attendance"),{
+
+student:student,
+meeting:meeting,
+time:new Date().toLocaleTimeString()
+
+});
+
+document.getElementById("status").innerHTML="Attendance Recorded";
+
+}
+
+</script>
+
+</body>
+</html>
