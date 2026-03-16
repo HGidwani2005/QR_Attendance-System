@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>DCC QR Generator</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<header>Dean Career Cloud (DCC)</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Generate Meeting QR</h2>
+
+<input type="date" id="meetingDate">
+
+<br>
+
+<button onclick="generateQR()">
+Generate QR
+</button>
+
+<div id="qrcode"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function generateQR(){
+
+let date=document.getElementById("meetingDate").value;
+
+let link="attendance.html?meeting="+date;
+
+document.getElementById("qrcode").innerHTML="";
+
+new QRCode(document.getElementById("qrcode"),{
+
+text:link,
+width:200,
+height:200
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
