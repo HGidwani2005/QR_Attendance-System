@@ -4,55 +4,97 @@
 <head>
 <title>DCC Dashboard</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 
 <body>
 
-<header>Dean Career Cloud (DCC)</header>
+<header>
+Dean Career Cloud (DCC)
+</header>
 
-<div class="container">
+<div class="dashboard">
 
-<div class="card">
+<div class="user-info">
+<span id="userName"></span>
+<span id="userEnrollment"></span>
+</div>
 
-<h2>Attendance Records</h2>
+<div class="dashboard-card">
 
-<table id="table">
+<h2>Attendance Dashboard</h2>
 
-<tr>
-<th>Student</th>
-<th>Date</th>
-<th>Time</th>
-</tr>
+<button onclick="markAttendance()">
+Mark Attendance
+</button>
 
-</table>
+<button id="adminQR" style="display:none" onclick="showQR()">
+Generate QR
+</button>
+
+<div id="qrSection" style="display:none">
+
+<input type="date" id="meetingDate">
+
+<button onclick="generateQR()">
+Create QR
+</button>
+
+<div id="qrcode"></div>
 
 </div>
 
 </div>
 
-<script type="module">
+</div>
 
-import { db } from "./firebase.js";
-import { collection,getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const querySnapshot=await getDocs(collection(db,"attendance"));
+<script>
 
-querySnapshot.forEach((doc)=>{
+let name = localStorage.getItem("studentName");
+let enrollment = localStorage.getItem("studentEnrollment");
 
-let data=doc.data();
+document.getElementById("userName").innerText = name;
+document.getElementById("userEnrollment").innerText = enrollment;
 
-let row=document.createElement("tr");
+/* SHOW ADMIN BUTTON */
 
-row.innerHTML=
-`<td>${data.student}</td>
-<td>${data.meeting}</td>
-<td>${data.time}</td>`;
+if(localStorage.getItem("admin") === "true"){
+document.getElementById("adminQR").style.display="block";
+}
 
-document.getElementById("table").appendChild(row);
+function markAttendance(){
 
+let meeting = new Date().toISOString().split('T')[0];
+
+window.location.href="attendance.html?meeting="+meeting;
+
+}
+
+function showQR(){
+
+document.getElementById("qrSection").style.display="block";
+
+}
+
+function generateQR(){
+
+let date=document.getElementById("meetingDate").value;
+
+let link="attendance.html?meeting="+date;
+
+document.getElementById("qrcode").innerHTML="";
+
+new QRCode(document.getElementById("qrcode"),{
+text:link,
+width:220,
+height:220
 });
+
+}
 
 </script>
 
 </body>
+
 </html>
