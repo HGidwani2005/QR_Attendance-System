@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DCC Student Registration</title>
-
+<title>DCC Portal</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -21,56 +15,21 @@ Dean Career Cloud (DCC)
 
 <div class="card">
 
-<h2>Student Registration</h2>
-<p class="subtitle">Register yourself to access the attendance portal</p>
+<h2>DCC Attendance Portal</h2>
 
-<form id="registerForm">
+<button onclick="location.href='login.html'">
+Login
+</button>
 
-<input type="text" id="name" placeholder="Full Name" required>
+<br><br>
 
-<input type="text" id="enrollment" placeholder="Enrollment Number" required>
-
-<select id="year">
-<option>1st Year</option>
-<option>2nd Year</option>
-<option>3rd Year</option>
-</select>
-
-<button type="submit">Register</button>
-
-</form>
+<button onclick="location.href='register.html'">
+Register
+</button>
 
 </div>
 
 </div>
-
-
-<script type="module">
-
-import { db } from "./firebase.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-document.getElementById("registerForm").addEventListener("submit", async (e)=>{
-
-e.preventDefault();
-
-let name=document.getElementById("name").value;
-let enrollment=document.getElementById("enrollment").value;
-let year=document.getElementById("year").value;
-
-await addDoc(collection(db,"students"),{
-name:name,
-enrollment:enrollment,
-year:year
-});
-
-localStorage.setItem("student",name);
-
-alert("Registration Successful");
-
-});
-
-</script>
 
 </body>
 </html>
