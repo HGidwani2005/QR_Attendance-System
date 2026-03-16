@@ -1,3 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DCC Student Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+Dean Career Cloud (DCC)
+</header>
+
+<div class="page-container">
+
+<div class="card">
+
+<h2>Student Registration</h2>
+
 <form id="registerForm">
 
 <input type="text" id="name" placeholder="Full Name" required>
@@ -12,12 +37,55 @@
 <option>3rd Year</option>
 </select>
 
-<button type="button" onclick="sendOTP()">Send OTP</button>
-
-<input type="text" id="otp" placeholder="Enter OTP">
-
-<input type="password" id="password" placeholder="Set Password">
+<input type="password" id="password" placeholder="Set Password" required>
 
 <button type="submit">Register</button>
 
 </form>
+
+</div>
+
+</div>
+
+
+<!-- REGISTER SCRIPT GOES HERE -->
+
+<script type="module">
+
+import { db } from "./firebase.js";
+import { collection, addDoc } from 
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+document.getElementById("registerForm").addEventListener("submit", async (e)=>{
+
+e.preventDefault();
+
+let name = document.getElementById("name").value;
+let enrollment = document.getElementById("enrollment").value;
+let email = document.getElementById("email").value;
+let year = document.getElementById("year").value;
+let password = document.getElementById("password").value;
+
+await addDoc(collection(db,"students"),{
+
+name:name,
+enrollment:enrollment,
+email:email,
+year:year,
+password:password
+
+});
+
+localStorage.setItem("studentName",name);
+localStorage.setItem("studentEnrollment",enrollment);
+
+alert("Registration Successful");
+
+window.location.href="login.html";
+
+});
+
+</script>
+
+</body>
+</html>
