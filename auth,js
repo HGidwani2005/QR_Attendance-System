@@ -1,0 +1,15 @@
+let generatedOTP;
+
+function sendOTP(){
+
+generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+alert("OTP: " + generatedOTP);
+
+}
+
+function verifyOTP(userOTP){
+
+return userOTP == generatedOTP;
+
+}
