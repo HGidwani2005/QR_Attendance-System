@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DCC Login</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+Dean Career Cloud (DCC)
+</header>
+
+<div class="page-container">
+
+<div class="card">
+
+<h2>Login</h2>
+
+<form id="loginForm">
+
+<input type="text" id="loginEnrollment" placeholder="Enrollment Number" required>
+
+<input type="password" id="loginPassword" placeholder="Password" required>
+
+<button type="submit">Login</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- LOGIN SCRIPT -->
+
+<script type="module">
+
+import { db } from "./firebase.js";
+import { collection, getDocs } from 
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+document.getElementById("loginForm").addEventListener("submit", async (e)=>{
+
+e.preventDefault();
+
+let enrollment=document.getElementById("loginEnrollment").value;
+let password=document.getElementById("loginPassword").value;
+
+const querySnapshot=await getDocs(collection(db,"students"));
+
+let valid=false;
+let studentName="";
+
+querySnapshot.forEach((doc)=>{
+
+let data=doc.data();
+
+if(data.enrollment===enrollment && data.password===password){
+
+valid=true;
+studentName=data.name;
+
+}
+
+});
+
+if(valid){
+
+localStorage.setItem("studentName",studentName);
+localStorage.setItem("studentEnrollment",enrollment);
+
+window.location.href="dashboard.html";
+
+}
+
+else{
+
+alert("Invalid login credentials");
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
