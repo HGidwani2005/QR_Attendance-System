@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DCC Attendance System</title>
+<title>DCC Student Registration</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,51 +17,60 @@
 Dean Career Cloud (DCC)
 </header>
 
+<div class="page-container">
 
-<div class="center-container">
+<div class="card">
 
-<div class="form-card">
+<h2>Student Registration</h2>
+<p class="subtitle">Register yourself to access the attendance portal</p>
 
-<h2>DCC Attendance Portal</h2>
+<form id="registerForm">
 
-<p style="margin-bottom:25px; opacity:0.8;">
-Welcome to the official attendance portal for Dean Career Cloud members.
-</p>
+<input type="text" id="name" placeholder="Full Name" required>
 
+<input type="text" id="enrollment" placeholder="Enrollment Number" required>
 
-<button onclick="window.location.href='register.html'">
-Student Registration
-</button>
+<select id="year">
+<option>1st Year</option>
+<option>2nd Year</option>
+<option>3rd Year</option>
+</select>
 
-<br><br>
+<button type="submit">Register</button>
 
-<button onclick="window.location.href='attendance.html'">
-Mark Attendance
-</button>
-
-<br><br>
-
-<button onclick="window.location.href='dashboard.html'">
-View Attendance Records
-</button>
-
-<br><br>
-
-<button onclick="window.location.href='admin.html'">
-Generate Meeting QR
-</button>
-
+</form>
 
 </div>
 
 </div>
 
 
-<footer style="text-align:center; padding:15px; font-size:13px; opacity:0.6;">
-© 2026 Dean Career Cloud (DCC)
-</footer>
+<script type="module">
 
+import { db } from "./firebase.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+document.getElementById("registerForm").addEventListener("submit", async (e)=>{
+
+e.preventDefault();
+
+let name=document.getElementById("name").value;
+let enrollment=document.getElementById("enrollment").value;
+let year=document.getElementById("year").value;
+
+await addDoc(collection(db,"students"),{
+name:name,
+enrollment:enrollment,
+year:year
+});
+
+localStorage.setItem("student",name);
+
+alert("Registration Successful");
+
+});
+
+</script>
 
 </body>
-
 </html>
